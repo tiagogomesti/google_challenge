@@ -1,3 +1,6 @@
+from generate_inputs import *
+from solution_ref import *
+
 def is_this_id_already_checked(id, checked_ids_array):
     for i in range(0, len(checked_ids_array)):
         if id == checked_ids_array[i]:
@@ -25,11 +28,18 @@ def mark_id_as_checked(checked_ids_array, id):
 
 
 def solution(data, n): 
+    if len(data) == 0:
+        return None
+
     checked_ids_array = []
     i = 0
     while True:
         id = data[i]
-        if is_this_id_already_checked(id, checked_ids_array) == False:
+        if is_this_id_already_checked(id, checked_ids_array) == True:
+            i += 1
+            if i == len(data):
+                break
+        else:
             ids_places_array = read_tasks_id(data, i)
             if len(ids_places_array) > n:
                 remove_id(data, ids_places_array)
@@ -41,14 +51,19 @@ def solution(data, n):
                 i += 1
                 if i == len(data):
                     break
-    return(data)
 
+    if len(data) == 0:
+        return None
+    else:
+        return(data)
 
 def main():
-    # TODO: Avaliar futuramente se é necessário barrar análise com mais de 100 elementos
-    print("Hello World!")
-    print(solution([1, 2, 3], 0))
-    print(solution([1, 2, 2, 3, 3, 3, 4, 5, 5], 1))
+    input = generate_inputs(1, 10, 99, 50)
+
+    for i in range(0,len(input)):
+        a = solution(input[i][0], input[i][1])
+        b = solution_reference(input[i][0], input[i][1])
+        print(a==b)
 
 if __name__ == "__main__":
     main()
