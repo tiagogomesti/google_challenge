@@ -1,21 +1,38 @@
-def decompose_in_sum_two_terms(start_number, number):
-    if start_number > number:
-        return 0
+def ap_sum_terms(a1, r, n_terms):
+    an = a1 + (n_terms-1)*r
+    return n_terms*(a1+an)/2
 
-    n_items = 0
-    x = start_number
-    y = number - start_number
+def check_tuple(x, y, sum):
+    i = 0
+    result = 0
+    a1 = x
+    r = y - x
+    while result < sum:
+        result = ap_sum_terms(a1, r, i)
+        i += 1
 
-    while(x < y):
-        print(x,y)
-        n_items += decompose_in_sum_two_terms(x+1, y) + 1
+    if result == sum:
+        return True
+    else:
+        return False
+
+def solution(n):
+    if n<3:
+        return None
+
+    x = 1
+    y = n-1
+    n_terms = 0
+
+    while x<y:
+        if check_tuple(x, y, n):
+            n_terms += 1
+            # print(x,y)
         x += 1
         y -= 1
 
-    return n_items
+    return n_terms
 
-def solution(n):
-    return decompose_in_sum_two_terms(1, n)
 
 
 def main():
